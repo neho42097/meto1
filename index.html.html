@@ -1,0 +1,2261 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Untitled</title>
+  
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Barbería Bigote</title>
+
+    <meta
+      property="og:image"
+      content="https://4tsix0yujj.ufs.sh/f/2vMRHqOYUHc0K5prXUEjR7oilQcqGuVyEA8Sm1pf4v95nLIB"
+    />
+    <meta property="og:image:alt" content="Imagen del proyecto" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:image"
+      content="https://4tsix0yujj.ufs.sh/f/2vMRHqOYUHc0K5prXUEjR7oilQcqGuVyEA8Sm1pf4v95nLIB"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+      @media print {
+        body * {
+          visibility: hidden;
+        }
+        #print-section,
+        #print-section * {
+          visibility: visible;
+        }
+        #print-section {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          padding: 20px;
+          box-sizing: border-box;
+          font-family: monospace; /* For a receipt-like feel */
+          font-size: 14px;
+        }
+
+        /* Styles for reports printing */
+        #inventory-report-section,
+        #barber-report-section,
+        #product-sales-report-section,
+        #product-returns-report-section,
+        #attendance-report-section,
+        #barber-payments-report-section {
+          /* Added for attendance report and payments */
+          visibility: visible; /* Ensure the report section is visible */
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          padding: 20px;
+          box-sizing: border-box;
+          font-family: sans-serif;
+          font-size: 12px;
+          color: #333;
+        }
+        #inventory-report-section h2,
+        #inventory-report-section h3,
+        #inventory-report-section h4,
+        #barber-report-section h2,
+        #barber-report-section h3,
+        #barber-report-section h4,
+        #product-sales-report-section h2,
+        #product-sales-report-section h3,
+        #product-sales-report-section h4,
+        #product-returns-report-section h2,
+        #product-returns-report-section h3,
+        #product-returns-report-section h4,
+        #attendance-report-section h2, /* Added for attendance report */
+        #attendance-report-section h3, /* Added for attendance report */
+        #attendance-report-section h4, /* Added for attendance report */
+        #barber-payments-report-section h2, /* Added for payments report */
+        #barber-payments-report-section h3, /* Added for payments report */
+        #barber-payments-report-section h4 {
+          /* Added for payments report */
+          text-align: center;
+          margin-bottom: 15px;
+          color: #333;
+        }
+        #inventory-report-section table,
+        #barber-report-section table,
+        #product-sales-report-section table,
+        #product-returns-report-section table,
+        #attendance-report-section table,
+        #barber-payments-report-section table {
+          /* Added for payments report */
+          width: 100%;
+          border-collapse: collapse;
+          margin-bottom: 20px;
+        }
+        #inventory-report-section th,
+        #inventory-report-section td,
+        #barber-report-section th,
+        #barber-report-section td,
+        #product-sales-report-section th,
+        #product-sales-report-section td,
+        #product-returns-report-section th,
+        #product-returns-report-section td,
+        #attendance-report-section th, /* Added for attendance report */
+        #attendance-report-section td, /* Added for attendance report */
+        #barber-payments-report-section th, /* Added for payments report */
+        #barber-payments-report-section td {
+          /* Added for payments report */
+          border: 1px solid #ddd;
+          padding: 8px;
+          text-align: left;
+        }
+        #inventory-report-section th,
+        #barber-report-section th,
+        #product-sales-report-section th,
+        #product-returns-report-section th,
+        #attendance-report-section th,
+        #barber-payments-report-section th {
+          /* Added for payments report */
+          background-color: #f2f2f2;
+        }
+        #inventory-report-section .text-right,
+        #barber-report-section .text-right,
+        #product-sales-report-section .text-right,
+        #product-returns-report-section .text-right,
+        #attendance-report-section .text-right,
+        #barber-payments-report-section .text-right {
+          /* Added for payments report */
+          text-align: right;
+        }
+        #inventory-report-section .text-center,
+        #barber-report-section .text-center,
+        #product-sales-report-section .text-center,
+        #product-returns-report-section .text-center,
+        #attendance-report-section .text-center,
+        #barber-payments-report-section .text-center {
+          /* Added for payments report */
+          text-align: center;
+        }
+        #inventory-report-section .text-green-600,
+        #barber-report-section .text-green-600,
+        #product-sales-report-section .text-green-600,
+        #product-returns-report-section .text-green-600,
+        #attendance-report-section .text-green-600,
+        #barber-payments-report-section .text-green-600 {
+          /* Added for payments report */
+          color: #22c55e;
+        }
+        #inventory-report-section .text-red-600,
+        #barber-report-section .text-red-600,
+        #product-sales-report-section .text-red-600,
+        #product-returns-report-section .text-red-600,
+        #attendance-report-section .text-red-600,
+        #barber-payments-report-section .text-red-600 {
+          /* Added for payments report */
+          color: #ef4444;
+        }
+
+        /* Chart specific print styles */
+        #barber-report-section .chart-container,
+        #product-sales-report-section .chart-container {
+          width: 100%; /* Adjust as needed for printing */
+          margin: 20px auto;
+          page-break-inside: avoid; /* Avoid breaking chart across pages */
+        }
+        canvas {
+          max-width: 100%; /* Ensure canvas scales for print */
+          height: auto !important;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 font-sans antialiased text-gray-900">
+    <div id="root"></div>
+
+    <script type="text/babel">
+      console.log('Script de React/Babel cargado y ejecutándose.');
+
+      const { useState, useEffect, StrictMode, useRef } = React;
+      const { createRoot } = ReactDOM;
+
+      // Utility function to generate unique IDs
+      const generateId = () => Date.now().toString(36) + Math.random().toString(36).substring(2);
+
+      // Helper for localStorage
+      const useLocalStorage = (key, initialValue) => {
+        const [storedValue, setStoredValue] = useState(() => {
+          try {
+            const item = window.localStorage.getItem(key);
+            return item ? JSON.parse(item) : initialValue;
+          } catch (error) {
+            console.error(error);
+            return initialValue;
+          }
+        });
+
+        const setValue = (value) => {
+          try {
+            const valueToStore = value instanceof Function ? value(storedValue) : value;
+            setStoredValue(valueToStore);
+            window.localStorage.setItem(key, JSON.stringify(valueToStore));
+          } catch (error) {
+            console.error(error);
+          }
+        };
+        return [storedValue, setValue];
+      };
+
+      // /components/BarberiaHeader.js
+      const BarberiaHeader = ({ title = 'Barbería Bigote', onLogout = () => {}, activeTab, onSelectTab, userType }) => {
+        return (
+          <header className="bg-white shadow-sm p-4 flex justify-between items-center sticky top-0 z-20">
+            <h1 className="text-2xl font-semibold text-gray-900">{title}</h1>
+            <nav className="flex space-x-4">
+              <button
+                onClick={() => onSelectTab('service')}
+                className={`px-3 py-1 rounded-lg text-sm font-medium ${activeTab === 'service' ? 'bg-gray-800 text-white' : 'text-gray-700 hover:bg-gray-200'}`}
+              >
+                Servicio
+              </button>
+              <button
+                onClick={() => onSelectTab('product')}
+                className={`px-3 py-1 rounded-lg text-sm font-medium ${activeTab === 'product' ? 'bg-gray-800 text-white' : 'text-gray-700 hover:bg-gray-200'}`}
+              >
+                Productos
+              </button>
+              {userType === 'barber' && (
+                <button
+                  onClick={() => onSelectTab('barber-panel')}
+                  className={`px-3 py-1 rounded-lg text-sm font-medium ${activeTab === 'barber-panel' ? 'bg-gray-800 text-white' : 'text-gray-700 hover:bg-gray-200'}`}
+                >
+                  Mi Día
+                </button>
+              )}
+              {userType === 'owner' && (
+                <>
+                  <button
+                    onClick={() => onSelectTab('admin')}
+                    className={`px-3 py-1 rounded-lg text-sm font-medium ${activeTab === 'admin' ? 'bg-gray-800 text-white' : 'text-gray-700 hover:bg-gray-200'}`}
+                  >
+                    Admin
+                  </button>
+                  <button
+                    onClick={() => onSelectTab('inventory-management')}
+                    className={`px-3 py-1 rounded-lg text-sm font-medium ${activeTab === 'inventory-management' ? 'bg-gray-800 text-white' : 'text-gray-700 hover:bg-gray-200'}`}
+                  >
+                    Inventario
+                  </button>
+                  <button
+                    onClick={() => onSelectTab('reports')}
+                    className={`px-3 py-1 rounded-lg text-sm font-medium ${activeTab === 'reports' ? 'bg-gray-800 text-white' : 'text-gray-700 hover:bg-gray-200'}`}
+                  >
+                    Reportes
+                  </button>
+                </>
+              )}
+            </nav>
+            <button
+              onClick={onLogout}
+              className="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors text-sm"
+            >
+              Cerrar Sesión
+            </button>
+          </header>
+        );
+      };
+
+      // /components/BarberiaButton.js
+      const BarberiaButton = ({ onClick = () => {}, text = 'Botón', variant = 'primary', fullWidth = false, className = '', type = 'button', disabled = false }) => {
+        const baseStyle = "px-4 py-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900";
+        const variants = {
+          primary: "bg-gray-800 text-white hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed",
+          secondary: "bg-gray-200 text-gray-800 hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed",
+          danger: "bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed",
+          success: "bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed",
+        };
+
+        return (
+          <button
+            type={type}
+            onClick={onClick}
+            disabled={disabled}
+            className={`${baseStyle} ${variants[variant]} ${fullWidth ? 'w-full' : ''} ${className}`}
+          >
+            {text}
+          </button>
+        );
+      };
+
+      // /components/BarberiaInput.js
+      const BarberiaInput = ({ type = 'text', placeholder = '', value = '', onChange = () => {}, label = '', className = '', min = null, step = null, max = null }) => {
+        return (
+          <div className="mb-4">
+            {label && <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>}
+            <input
+              type={type}
+              placeholder={placeholder}
+              value={value}
+              onChange={onChange}
+              min={min}
+              max={max}
+              step={step}
+              className={`w-full px-4 py-2 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition ${className}`}
+            />
+          </div>
+        );
+      };
+
+      // /components/BarberiaSelect.js
+      const BarberiaSelect = ({ options = [], value = '', onChange = () => {}, label = '', className = '' }) => {
+        return (
+          <div className="mb-4">
+            {label && <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>}
+            <select
+              value={value}
+              onChange={onChange}
+              className={`w-full px-4 py-2 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition appearance-none ${className}`}
+            >
+              {options.map((option, index) => (
+                <option key={index} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        );
+      };
+
+      // /components/BarberiaModal.js
+      const BarberiaModal = ({ isOpen, onClose, title, children }) => {
+        if (!isOpen) return null;
+
+        return (
+          <div className="fixed inset-0 bg-gray-600 bg-opacity-75 flex items-center justify-center p-4 z-50">
+            <div className="bg-white rounded-lg shadow-xl w-full max-w-lg p-6 relative">
+              <button
+                onClick={onClose}
+                className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-2xl font-bold"
+              >
+                &times;
+              </button>
+              <h2 className="text-2xl font-semibold text-gray-900 mb-4 border-b pb-2">{title}</h2>
+              {children}
+            </div>
+          </div>
+        );
+      };
+
+      // /components/BarberiaVoucher.js (For printing - receipt style)
+      const BarberiaVoucher = ({ type, data, companyName = "Barbería Bigote" }) => {
+        const formatDate = (isoString) => {
+          const date = new Date(isoString);
+          return date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }) + ' ' +
+                                 date.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+        };
+
+        return (
+          <div id="print-section" className="text-sm">
+            <h3 className="text-center font-bold text-lg mb-2">{companyName}</h3>
+            <p className="text-center mb-4">¡Gracias por tu visita!</p>
+            <p>-----------------------------------</p>
+            <p><strong>Tipo:</strong> {type === 'service' ? 'Servicio Registrado' : type === 'product' ? 'Venta de Productos' : 'Servicio + Productos'}</p>
+            <p><strong>Fecha:</strong> {formatDate(data.date)}</p>
+            {data.barberName && <p><strong>Barbero:</strong> {data.barberName}</p>}
+            <p>-----------------------------------</p>
+
+            {data.serviceName && (
+              <>
+                <p><strong>Servicio:</strong> {data.serviceName}</p>
+                <p><strong>Precio Servicio:</strong> ${data.servicePrice ? data.servicePrice.toFixed(2) : '0.00'}</p>
+                <p>-----------------------------------</p>
+              </>
+            )}
+
+            {data.products && data.products.length > 0 && (
+              <>
+                <p><strong>Productos:</strong></p>
+                {data.products.map((product, index) => (
+                  <p key={index}>
+                    - {product.name} (x{product.quantity}) : ${product.pricePerUnit ? product.pricePerUnit.toFixed(2) : '0.00'} c/u
+                    = ${(product.pricePerUnit * product.quantity).toFixed(2)}
+                  </p>
+                ))}
+                <p>-----------------------------------</p>
+              </>
+            )}
+
+            <p className="text-right text-lg font-bold">Total: ${data.totalAmount ? data.totalAmount.toFixed(2) : '0.00'}</p>
+            <p><strong>Método de Pago:</strong> {data.paymentMethod}</p>
+            <p>-----------------------------------</p>
+            <p className="text-center mt-4">¡Vuelve pronto!</p>
+          </div>
+        );
+      };
+
+      // /components/BarberiaServiceForm.js
+      const BarberiaServiceForm = ({ barbers = [], services = [], products = [], onRegisterService = () => {}, currentBarberId }) => {
+        const [selectedBarber, setSelectedBarber] = useState(currentBarberId || ''); // Pre-select current barber
+        const [selectedService, setSelectedService] = useState('');
+        const [price, setPrice] = useState('');
+        const [paymentMethod, setPaymentMethod] = useState('');
+        const [selectedProductsForService, setSelectedProductsForService] = useState([]);
+        const [showVoucherModal, setShowVoucherModal] = useState(false);
+        const [voucherData, setVoucherData] = useState(null);
+
+        const paymentOptions = [
+            { value: '', label: 'Selecciona método de pago' },
+            { value: 'Cash', label: 'Efectivo' },
+            { value: 'Yape', label: 'Yape' },
+            { value: 'Plin', label: 'Plin' },
+            { value: 'BCP', label: 'BCP' },
+        ];
+
+        const getServiceLabel = (value) => services.find(s => s.id === value)?.name || 'Desconocido';
+        const getBarberName = (id) => barbers.find(b => b.id === id)?.name || 'Desconocido';
+
+        const handleProductToggle = (productId) => {
+          setSelectedProductsForService(prev => {
+            const existingProduct = prev.find(p => p.productId === productId);
+            if (existingProduct) {
+              return prev.filter(p => p.productId !== productId);
+            } else {
+              const productInfo = products.find(p => p.id === productId);
+              return [...prev, { productId, quantity: 1, pricePerUnit: productInfo?.defaultPrice || 0, name: productInfo?.name || 'Producto Desconocido' }];
+            }
+          });
+        };
+
+        const handleQuantityChange = (productId, newQuantity) => {
+          setSelectedProductsForService(prev => prev.map(item =>
+            item.productId === productId ? { ...item, quantity: Math.max(1, parseInt(newQuantity) || 1) } : item
+          ));
+        };
+
+        const handlePriceChange = (productId, newPrice) => {
+            setSelectedProductsForService(prev => prev.map(item =>
+                item.productId === productId ? { ...item, pricePerUnit: parseFloat(newPrice) || 0 } : item
+            ));
+        };
+
+        const calculateProductTotalPrice = () => {
+            return selectedProductsForService.reduce((sum, item) => sum + (item.pricePerUnit * item.quantity), 0);
+        };
+
+        const handleRegister = () => {
+          const servicePrice = parseFloat(price || 0);
+          const productsTotal = calculateProductTotalPrice();
+          const totalAmount = servicePrice + productsTotal;
+
+          if (!selectedBarber || !selectedService || isNaN(servicePrice) || servicePrice < 0 || !paymentMethod) {
+            alert('Por favor, completa todos los campos obligatorios (Barbero, Servicio, Precio de Servicio, Método de Pago) y asegúrate que el precio sea válido.');
+            return;
+          }
+
+          let isValid = true;
+          const productsToRegister = selectedProductsForService.map(item => {
+              const productInStock = products.find(p => p.id === item.productId);
+              if (!productInStock || item.quantity <= 0 || isNaN(item.quantity) || item.quantity > productInStock.quantity || item.pricePerUnit <= 0 || isNaN(item.pricePerUnit)) {
+                  isValid = false;
+                  alert(`Error en el producto ${item.name}: Cantidad inválida, stock insuficiente o precio inválido.`);
+                  return null;
+              }
+              return {
+                productId: item.productId,
+                quantity: item.quantity,
+                price: item.pricePerUnit * item.quantity,
+                pricePerUnit: item.pricePerUnit, // Keep pricePerUnit for voucher display
+                name: productInStock.name
+              };
+          }).filter(Boolean); // Filter out nulls if validation failed
+
+          if (!isValid) return;
+
+
+          const newServiceRecord = {
+            id: generateId(),
+            barberId: selectedBarber,
+            serviceId: selectedService,
+            price: servicePrice,
+            date: new Date().toISOString(),
+            paymentMethod: paymentMethod,
+            productsSold: productsToRegister,
+            totalAmount: totalAmount,
+          };
+
+          onRegisterService(newServiceRecord);
+
+          // Prepare voucher data
+          setVoucherData({
+            date: newServiceRecord.date,
+            barberName: getBarberName(newServiceRecord.barberId),
+            serviceName: getServiceLabel(newServiceRecord.serviceId),
+            servicePrice: newServiceRecord.price,
+            products: newServiceRecord.productsSold,
+            totalAmount: newServiceRecord.totalAmount,
+            paymentMethod: newServiceRecord.paymentMethod,
+          });
+          setShowVoucherModal(true);
+
+          // Reset form
+          setSelectedBarber(currentBarberId || ''); // Keep current barber selected if it's a barber's panel
+          setSelectedService('');
+          setPrice('');
+          setPaymentMethod('');
+          setSelectedProductsForService([]);
+          alert('Servicio y/o productos registrados con éxito.');
+        };
+
+        const barberOptions = [{ value: '', label: 'Selecciona un barbero' }, ...barbers.map(barber => ({ value: barber.id, label: barber.name }))];
+        const serviceOptions = [{ value: '', label: 'Selecciona un servicio' }, ...services.map(s => ({ value: s.id, label: s.name }))];
+
+
+        return (
+          <div className="bg-white p-6 rounded-xl shadow-lg max-w-lg mx-auto mb-8">
+            <h2 className="text-2xl font-semibold text-gray-900 mb-6 text-center">Registrar Servicio</h2>
+            <BarberiaSelect
+              label="Barbero"
+              options={barberOptions}
+              value={selectedBarber}
+              onChange={(e) => setSelectedBarber(e.target.value)}
+              disabled={!!currentBarberId} // Disable if a barber is logged in
+            />
+            <BarberiaSelect
+              label="Servicio"
+              options={serviceOptions}
+              value={selectedService}
+              onChange={(e) => {
+                setSelectedService(e.target.value);
+                const service = services.find(s => s.id === e.target.value);
+                if (service) {
+                  setPrice(service.price.toFixed(2));
+                } else {
+                  setPrice('');
+                }
+              }}
+            />
+            <BarberiaInput
+              label="Precio del Servicio"
+              type="number"
+              placeholder="0.00"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              min="0"
+              step="0.01"
+            />
+            <BarberiaSelect
+                label="Método de Pago"
+                options={paymentOptions}
+                value={paymentMethod}
+                onChange={(e) => setPaymentMethod(e.target.value)}
+            />
+
+            <div className="mb-6 border-t pt-4">
+                <h3 className="text-lg font-medium text-gray-800 mb-3">Productos Adicionales (Opcional)</h3>
+                <div className="grid grid-cols-2 gap-3 max-h-40 overflow-y-auto p-2 border border-gray-200 rounded-lg bg-gray-50">
+                    {products.length === 0 ? (
+                        <p className="text-gray-500 text-sm col-span-full text-center">No hay productos disponibles.</p>
+                    ) : (
+                        products.map(product => (
+                            <label key={product.id} className="flex items-center space-x-2 bg-white p-2 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors shadow-sm">
+                                <input
+                                    type="checkbox"
+                                    value={product.id}
+                                    checked={selectedProductsForService.some(p => p.productId === product.id)}
+                                    onChange={() => handleProductToggle(product.id)}
+                                    className="form-checkbox h-4 w-4 text-gray-900 rounded"
+                                />
+                                <span className="text-gray-800 text-sm">{product.name} (Stock: {product.quantity})</span>
+                            </label>
+                        ))
+                    )}
+                </div>
+            </div>
+
+            {selectedProductsForService.length > 0 && (
+                <div className="mb-6">
+                    <h4 className="text-md font-medium text-gray-700 mb-3">Detalle de Productos para el Servicio:</h4>
+                    <div className="space-y-2">
+                        {selectedProductsForService.map(item => (
+                            <div key={item.productId} className="flex flex-wrap items-center justify-between space-x-2 bg-gray-50 p-2 rounded-lg text-sm">
+                                <span className="flex-grow font-medium">{item.name}</span>
+                                <div className="flex items-center space-x-2">
+                                    <label className="text-xs text-gray-600">Cant:</label>
+                                    <input
+                                        type="number"
+                                        min="1"
+                                        value={item.quantity}
+                                        onChange={(e) => handleQuantityChange(item.productId, e.target.value)}
+                                        className="w-14 px-1 py-0.5 border rounded-md text-xs"
+                                    />
+                                    <label className="text-xs text-gray-600">Precio unit:</label>
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        step="0.01"
+                                        value={item.pricePerUnit.toFixed(2)}
+                                        onChange={(e) => handlePriceChange(item.productId, e.target.value)}
+                                        className="w-20 px-1 py-0.5 border rounded-md text-xs"
+                                    />
+                                    <span className="font-semibold">Total: ${(item.quantity * item.pricePerUnit).toFixed(2)}</span>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="text-right mt-3 text-lg font-bold text-gray-900">
+                        Total Productos (adicional): ${calculateProductTotalPrice().toFixed(2)}
+                    </div>
+                </div>
+            )}
+
+            <div className="text-right mt-4 text-2xl font-bold text-gray-900 border-t pt-4">
+                Total a Pagar: ${(parseFloat(price || 0) + calculateProductTotalPrice()).toFixed(2)}
+            </div>
+
+            <BarberiaButton text="Registrar Servicio" onClick={handleRegister} fullWidth className="mt-6" />
+
+            <BarberiaModal isOpen={showVoucherModal} onClose={() => setShowVoucherModal(false)} title="Comprobante de Servicio">
+                {voucherData && <BarberiaVoucher type="service" data={voucherData} />}
+                <BarberiaButton text="Imprimir Comprobante" onClick={() => window.print()} fullWidth className="mt-4" variant="secondary" />
+            </BarberiaModal>
+          </div>
+        );
+      };
+
+      // /components/BarberiaProductSaleForm.js
+      const BarberiaProductSaleForm = ({ products = [], onSellProduct = () => {}, currentBarberId }) => {
+        const [selectedProductsToSell, setSelectedProductsToSell] = useState([]);
+        const [totalSalePrice, setTotalSalePrice] = useState(0);
+        const [paymentMethod, setPaymentMethod] = useState('');
+        const [showVoucherModal, setShowVoucherModal] = useState(false);
+        const [voucherData, setVoucherData] = useState(null);
+
+        const paymentOptions = [
+            { value: '', label: 'Selecciona método de pago' },
+            { value: 'Cash', label: 'Efectivo' },
+            { value: 'Yape', label: 'Yape' },
+            { value: 'Plin', label: 'Plin' },
+            { value: 'BCP', label: 'BCP' },
+        ];
+
+
+        const handleProductToggle = (productId) => {
+          setSelectedProductsToSell(prev => {
+            const existingProduct = prev.find(p => p.productId === productId);
+            if (existingProduct) {
+              return prev.filter(p => p.productId !== productId);
+            } else {
+              const productInfo = products.find(p => p.id === productId);
+              return [...prev, { productId, quantity: 1, pricePerUnit: productInfo?.defaultPrice || 0, name: productInfo?.name || 'Producto Desconocido' }];
+            }
+          });
+        };
+
+        const handleQuantityChange = (productId, newQuantity) => {
+          setSelectedProductsToSell(prev => prev.map(item =>
+            item.productId === productId ? { ...item, quantity: Math.max(1, parseInt(newQuantity) || 1) } : item
+          ));
+        };
+
+        const handlePriceChange = (productId, newPrice) => {
+            setSelectedProductsToSell(prev => prev.map(item =>
+                item.productId === productId ? { ...item, pricePerUnit: parseFloat(newPrice) || 0 } : item
+            ));
+        };
+
+        useEffect(() => {
+            const calculatedTotal = selectedProductsToSell.reduce((sum, item) => {
+                return sum + (item.pricePerUnit * item.quantity);
+            }, 0);
+            setTotalSalePrice(calculatedTotal);
+        }, [selectedProductsToSell]);
+
+
+        const handleConfirmSale = () => {
+          if (selectedProductsToSell.length === 0) {
+            alert('Por favor, selecciona al menos un producto para vender.');
+            return;
+          }
+          if (!paymentMethod) {
+            alert('Por favor, selecciona un método de pago.');
+            return;
+          }
+
+          let isValid = true;
+          const salesToProcess = selectedProductsToSell.map(item => {
+              const productInStock = products.find(p => p.id === item.productId);
+              if (!productInStock || item.quantity <= 0 || isNaN(item.quantity) || item.quantity > productInStock.quantity || item.pricePerUnit <= 0 || isNaN(item.pricePerUnit)) {
+                  isValid = false;
+                  alert(`Error en el producto ${item.name}: Cantidad inválida, stock insuficiente o precio inválido.`);
+                  return null;
+              }
+              return {
+                productId: item.productId,
+                quantity: item.quantity,
+                price: item.pricePerUnit * item.quantity,
+                pricePerUnit: item.pricePerUnit, // Keep pricePerUnit for voucher display
+                name: productInStock.name
+              };
+          }).filter(Boolean); // Filtrar nulls si alguna validación falló
+
+          if (!isValid) return;
+
+
+          const saleId = generateId();
+          const saleDate = new Date().toISOString();
+
+          onSellProduct({
+            id: saleId,
+            products: salesToProcess,
+            totalAmount: totalSalePrice,
+            paymentMethod: paymentMethod,
+            date: saleDate,
+            barberId: currentBarberId // Associate direct product sales with the current barber
+          });
+
+          setVoucherData({
+            date: saleDate,
+            products: salesToProcess,
+            totalAmount: totalSalePrice,
+            paymentMethod: paymentMethod,
+          });
+          setShowVoucherModal(true);
+
+          setSelectedProductsToSell([]);
+          setPaymentMethod('');
+          setTotalSalePrice(0);
+          alert('Venta de productos registrada con éxito.');
+        };
+
+        return (
+          <div className="bg-white p-6 rounded-xl shadow-lg max-w-lg mx-auto mb-8">
+            <h2 className="text-2xl font-semibold text-gray-900 mb-6 text-center">Venta de Productos</h2>
+
+            <div className="mb-6">
+                <h3 className="text-xl font-medium text-gray-800 mb-4">Seleccionar Productos para Venta</h3>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 max-h-60 overflow-y-auto p-3 border border-gray-200 rounded-lg bg-gray-50">
+                    {products.length === 0 ? (
+                        <p className="text-gray-500 text-sm col-span-full text-center">No hay productos disponibles para venta.</p>
+                    ) : (
+                        products.map(product => (
+                            <label key={product.id} className="flex items-center space-x-2 bg-white p-2 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors shadow-sm">
+                                <input
+                                    type="checkbox"
+                                    value={product.id}
+                                    checked={selectedProductsToSell.some(p => p.productId === product.id)}
+                                    onChange={() => handleProductToggle(product.id)}
+                                    className="form-checkbox h-4 w-4 text-gray-900 rounded"
+                                />
+                                <span className="text-gray-800 text-sm">{product.name} (Stock: {product.quantity})</span>
+                            </label>
+                        ))
+                    )}
+                </div>
+            </div>
+
+            {selectedProductsToSell.length > 0 && (
+                <div className="mb-6">
+                    <h4 className="text-md font-medium text-gray-700 mb-3">Detalle de Productos para Venta:</h4>
+                    <div className="space-y-2">
+                        {selectedProductsToSell.map(item => (
+                            <div key={item.productId} className="flex flex-wrap items-center justify-between space-x-2 bg-gray-50 p-2 rounded-lg text-sm">
+                                <span className="flex-grow font-medium">{item.name}</span>
+                                <div className="flex items-center space-x-2">
+                                    <label className="text-xs text-gray-600">Cant:</label>
+                                    <input
+                                        type="number"
+                                        min="1"
+                                        value={item.quantity}
+                                        onChange={(e) => handleQuantityChange(item.productId, e.target.value)}
+                                        className="w-14 px-1 py-0.5 border rounded-md text-xs"
+                                    />
+                                    <label className="text-xs text-gray-600">Precio unit:</label>
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        step="0.01"
+                                        value={item.pricePerUnit.toFixed(2)}
+                                        onChange={(e) => handlePriceChange(item.productId, e.target.value)}
+                                        className="w-20 px-1 py-0.5 border rounded-md text-xs"
+                                    />
+                                    <span className="font-semibold">Total: ${(item.quantity * item.pricePerUnit).toFixed(2)}</span>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
+
+            <BarberiaSelect
+                label="Método de Pago"
+                options={paymentOptions}
+                value={paymentMethod}
+                onChange={(e) => setPaymentMethod(e.target.value)}
+            />
+
+            <div className="text-right mt-4 text-2xl font-bold text-gray-900 border-t pt-4">
+                Total a Pagar: ${totalSalePrice.toFixed(2)}
+            </div>
+
+            <BarberiaButton text="Confirmar Venta" onClick={handleConfirmSale} fullWidth className="mt-6" />
+
+            <BarberiaModal isOpen={showVoucherModal} onClose={() => setShowVoucherModal(false)} title="Comprobante de Venta">
+                {voucherData && <BarberiaVoucher type="product" data={voucherData} />}
+                <BarberiaButton text="Imprimir Comprobante" onClick={() => window.print()} fullWidth className="mt-4" variant="secondary" />
+            </BarberiaModal>
+          </div>
+        );
+      };
+
+      // /components/AdminPanel.js (Owner View)
+      const AdminPanel = ({ services, setServices, products, setProducts, barbers, setBarbers }) => {
+        const [newService, setNewService] = useState({ name: '', price: '', commissionPercentage: '' });
+        const [editServiceId, setEditServiceId] = useState(null);
+
+        const [newProduct, setNewProduct] = useState({ name: '', quantity: '', defaultPrice: '' });
+        const [editProductId, setEditProductId] = useState(null);
+
+        const [newBarber, setNewBarber] = useState({ name: '', password: '' });
+        const [editBarberId, setEditBarberId] = useState(null);
+
+        // --- Service Management ---
+        const handleAddService = () => {
+          if (!newService.name || isNaN(parseFloat(newService.price)) || parseFloat(newService.price) < 0 ||
+              isNaN(parseInt(newService.commissionPercentage)) || parseInt(newService.commissionPercentage) < 0 || parseInt(newService.commissionPercentage) > 100) {
+            alert('Por favor, completa todos los campos del servicio y asegúrate que precio y comisión sean números válidos (0-100).');
+            return;
+          }
+          if (editServiceId) {
+            setServices(services.map(s => s.id === editServiceId ? { ...s, name: newService.name, price: parseFloat(newService.price), commissionPercentage: parseInt(newService.commissionPercentage) } : s));
+            setEditServiceId(null);
+          } else {
+            setServices([...services, { id: generateId(), name: newService.name, price: parseFloat(newService.price), commissionPercentage: parseInt(newService.commissionPercentage) }]);
+          }
+          setNewService({ name: '', price: '', commissionPercentage: '' });
+        };
+
+        const handleEditService = (service) => {
+          setNewService({ name: service.name, price: service.price.toFixed(2), commissionPercentage: service.commissionPercentage.toString() });
+          setEditServiceId(service.id);
+        };
+
+        const handleDeleteService = (id) => {
+          if (confirm('¿Estás seguro de que quieres eliminar este servicio?')) {
+            setServices(services.filter(service => service.id !== id));
+          }
+        };
+
+        // --- Product Management ---
+        const handleAddProduct = () => {
+          if (!newProduct.name || isNaN(parseInt(newProduct.quantity)) || parseInt(newProduct.quantity) < 0 ||
+              isNaN(parseFloat(newProduct.defaultPrice)) || parseFloat(newProduct.defaultPrice) < 0) {
+            alert('Por favor, completa todos los campos del producto y asegúrate que cantidad y precio sean números válidos.');
+            return;
+          }
+          if (editProductId) {
+            setProducts(products.map(p => p.id === editProductId ? { ...p, name: newProduct.name, quantity: parseInt(newProduct.quantity), defaultPrice: parseFloat(newProduct.defaultPrice) } : p));
+            setEditProductId(null);
+          } else {
+            setProducts([...products, { id: generateId(), name: newProduct.name, quantity: parseInt(newProduct.quantity), defaultPrice: parseFloat(newProduct.defaultPrice) }]);
+          }
+          setNewProduct({ name: '', quantity: '', defaultPrice: '' });
+        };
+
+        const handleEditProduct = (product) => {
+          setNewProduct({ name: product.name, quantity: product.quantity.toString(), defaultPrice: product.defaultPrice.toFixed(2) });
+          setEditProductId(product.id);
+        };
+
+        const handleDeleteProduct = (id) => {
+          if (confirm('¿Estás seguro de que quieres eliminar este producto?')) {
+            setProducts(products.filter(product => product.id !== id));
+          }
+        };
+
+        // --- Barber Management ---
+        const handleAddBarber = () => {
+          if (!newBarber.name || !newBarber.password) {
+            alert('Por favor, ingresa el nombre y la clave del barbero.');
+            return;
+          }
+          if (editBarberId) {
+            setBarbers(barbers.map(b => b.id === editBarberId ? { ...b, name: newBarber.name, password: newBarber.password } : b));
+            setEditBarberId(null);
+          } else {
+            setBarbers([...barbers, { id: generateId(), name: newBarber.name, password: newBarber.password }]);
+          }
+          setNewBarber({ name: '', password: '' });
+        };
+
+        const handleEditBarber = (barber) => {
+          setNewBarber({ name: barber.name, password: barber.password }); // Pre-fill password for editing
+          setEditBarberId(barber.id);
+        };
+
+        const handleDeleteBarber = (id) => {
+          if (confirm('¿Estás seguro de que quieres eliminar este barbero? Esto eliminará todos sus registros de asistencia y ventas.')) {
+            setBarbers(barbers.filter(barber => barber.id !== id));
+            // In a real app, you'd also filter out associated service records and attendance for this barber
+          }
+        };
+
+        return (
+          <div className="container mx-auto p-4 max-w-4xl">
+            <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Panel de Administración</h2>
+
+            {/* Service Management */}
+            <div className="bg-white p-6 rounded-xl shadow-lg mb-8">
+              <h3 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3">Gestión de Servicios</h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <BarberiaInput
+                  label="Nombre del servicio"
+                  placeholder="Corte de Cabello"
+                  value={newService.name}
+                  onChange={(e) => setNewService({ ...newService, name: e.target.value })}
+                />
+                <BarberiaInput
+                  label="Precio (S/)"
+                  type="number"
+                  placeholder="25.00"
+                  value={newService.price}
+                  onChange={(e) => setNewService({ ...newService, price: e.target.value })}
+                  min="0"
+                  step="0.01"
+                />
+                <BarberiaInput
+                  label="Porcentaje de comisión (0-100)"
+                  type="number"
+                  placeholder="50"
+                  value={newService.commissionPercentage}
+                  onChange={(e) => setNewService({ ...newService, commissionPercentage: e.target.value })}
+                  min="0"
+                  max="100"
+                  step="1"
+                />
+              </div>
+              <BarberiaButton text={editServiceId ? "Actualizar Servicio" : "Agregar Servicio"} onClick={handleAddService} fullWidth className="mb-6" />
+
+              <h4 className="text-xl font-medium text-gray-700 mb-3">Lista de Servicios:</h4>
+              {services.length === 0 ? (
+                <p className="text-gray-500 text-sm text-center">No hay servicios registrados.</p>
+              ) : (
+                <ul className="space-y-3">
+                  {services.map(service => (
+                    <li key={service.id} className="flex justify-between items-center bg-gray-50 p-3 rounded-lg shadow-sm">
+                      <span className="text-gray-800 font-medium">{service.name} - ${service.price.toFixed(2)} - {service.commissionPercentage}% comisión</span>
+                      <div className="flex space-x-2">
+                        <BarberiaButton text="Editar" variant="secondary" onClick={() => handleEditService(service)} />
+                        <BarberiaButton text="Eliminar" variant="danger" onClick={() => handleDeleteService(service.id)} />
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+
+            {/* Product Management */}
+            <div className="bg-white p-6 rounded-xl shadow-lg mb-8">
+              <h3 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3">Gestión de Productos</h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <BarberiaInput
+                  label="Nombre del producto"
+                  placeholder="Gel Fijador"
+                  value={newProduct.name}
+                  onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
+                />
+                <BarberiaInput
+                  label="Cantidad"
+                  type="number"
+                  placeholder="100"
+                  value={newProduct.quantity}
+                  onChange={(e) => setNewProduct({ ...newProduct, quantity: e.target.value })}
+                  min="0"
+                  step="1"
+                />
+                 <BarberiaInput
+                  label="Precio por defecto (S/)"
+                  type="number"
+                  placeholder="15.00"
+                  value={newProduct.defaultPrice}
+                  onChange={(e) => setNewProduct({ ...newProduct, defaultPrice: e.target.value })}
+                  min="0"
+                  step="0.01"
+                />
+              </div>
+              <BarberiaButton text={editProductId ? "Actualizar Producto" : "Agregar Producto"} onClick={handleAddProduct} fullWidth className="mb-6" />
+
+              <h4 className="text-xl font-medium text-gray-700 mb-3">Lista de Productos:</h4>
+              {products.length === 0 ? (
+                <p className="text-gray-500 text-sm text-center">No hay productos registrados.</p>
+              ) : (
+                <ul className="space-y-3">
+                  {products.map(product => (
+                    <li key={product.id} className="flex justify-between items-center bg-gray-50 p-3 rounded-lg shadow-sm">
+                      <span className="text-gray-800 font-medium">{product.name} - Cant: {product.quantity} - Precio: ${product.defaultPrice.toFixed(2)}</span>
+                      <div className="flex space-x-2">
+                        <BarberiaButton text="Editar" variant="secondary" onClick={() => handleEditProduct(product)} />
+                        <BarberiaButton text="Eliminar" variant="danger" onClick={() => handleDeleteProduct(product.id)} />
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+
+            {/* Barber Management */}
+            <div className="bg-white p-6 rounded-xl shadow-lg mb-8">
+              <h3 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3">Gestión de Barberos</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <BarberiaInput
+                  label="Nombre del Barbero"
+                  placeholder="Juan Pérez"
+                  value={newBarber.name}
+                  onChange={(e) => setNewBarber({ ...newBarber, name: e.target.value })}
+                />
+                <BarberiaInput
+                  label="Clave (Contraseña)"
+                  type="password"
+                  placeholder="****"
+                  value={newBarber.password}
+                  onChange={(e) => setNewBarber({ ...newBarber, password: e.target.value })}
+                />
+              </div>
+              <BarberiaButton text={editBarberId ? "Actualizar Barbero" : "Agregar Barbero"} onClick={handleAddBarber} fullWidth className="mb-6" />
+
+              <h4 className="text-xl font-medium text-gray-700 mb-3">Lista de Barberos:</h4>
+              {barbers.length === 0 ? (
+                <p className="text-gray-500 text-sm text-center">No hay barberos registrados.</p>
+              ) : (
+                <ul className="space-y-3">
+                  {barbers.map(barber => (
+                    <li key={barber.id} className="flex justify-between items-center bg-gray-50 p-3 rounded-lg shadow-sm">
+                      <span className="text-gray-800 font-medium">{barber.name}</span>
+                      <div className="flex space-x-2">
+                        <BarberiaButton text="Editar" variant="secondary" onClick={() => handleEditBarber(barber)} />
+                        <BarberiaButton text="Eliminar" variant="danger" onClick={() => handleDeleteBarber(barber.id)} />
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
+        );
+      };
+
+      // /components/InventoryManagement.js
+      const InventoryManagement = ({ products, setProducts }) => {
+        const [productToAdjust, setProductToAdjust] = useState('');
+        const [adjustmentQuantity, setAdjustmentQuantity] = useState('');
+        const [adjustmentType, setAdjustmentType] = useState('add'); // 'add' or 'subtract'
+        const [returnReason, setReturnReason] = useState('');
+        const [returnedProducts, setReturnedProducts] = useLocalStorage('returnedProducts', []);
+
+        const handleAdjustInventory = () => {
+          if (!productToAdjust || isNaN(parseInt(adjustmentQuantity)) || parseInt(adjustmentQuantity) <= 0) {
+            alert('Por favor, selecciona un producto y una cantidad válida para ajustar (mayor a 0).');
+            return;
+          }
+
+          setProducts(prevProducts => {
+            return prevProducts.map(product => {
+              if (product.id === productToAdjust) {
+                const currentQuantity = product.quantity;
+                const quantityChange = parseInt(adjustmentQuantity);
+                let newQuantity = currentQuantity;
+
+                if (adjustmentType === 'add') {
+                  newQuantity = currentQuantity + quantityChange;
+                } else if (adjustmentType === 'subtract') {
+                  if (currentQuantity < quantityChange) {
+                    alert('No puedes restar más productos de los que hay en stock.');
+                    return product; // Don't update if insufficient stock
+                  }
+                  newQuantity = currentQuantity - quantityChange;
+                }
+                return { ...product, quantity: newQuantity };
+              }
+              return product;
+            });
+          });
+          setProductToAdjust('');
+          setAdjustmentQuantity('');
+          setAdjustmentType('add');
+          alert('Inventario ajustado con éxito.');
+        };
+
+        const handleReturnProduct = () => {
+            if (!productToAdjust || isNaN(parseInt(adjustmentQuantity)) || parseInt(adjustmentQuantity) <= 0 || !returnReason) {
+                alert('Por favor, selecciona un producto, una cantidad válida y una razón para la devolución.');
+                return;
+            }
+
+            const productReturning = products.find(p => p.id === productToAdjust);
+
+            if (!productReturning || productReturning.quantity < parseInt(adjustmentQuantity)) {
+                alert('No hay suficiente stock para devolver la cantidad especificada.');
+                return;
+            }
+
+            // Add the returned product to the returns history
+            const newReturn = {
+                id: generateId(),
+                productId: productToAdjust,
+                productName: productReturning.name,
+                quantity: parseInt(adjustmentQuantity),
+                reason: returnReason,
+                date: new Date().toISOString()
+            };
+            setReturnedProducts(prev => [...prev, newReturn]);
+
+            // Adjust inventory (add back to stock)
+            setProducts(prevProducts => {
+                return prevProducts.map(product => {
+                    if (product.id === productToAdjust) {
+                        return { ...product, quantity: product.quantity + parseInt(adjustmentQuantity) };
+                    }
+                    return product;
+                });
+            });
+
+            setProductToAdjust('');
+            setAdjustmentQuantity('');
+            setReturnReason('');
+            alert('Producto devuelto y stock ajustado con éxito.');
+        };
+
+
+        const productOptions = [{ value: '', label: 'Selecciona un producto' }, ...products.map(p => ({ value: p.id, label: p.name }))];
+
+        return (
+          <div className="container mx-auto p-4 max-w-2xl">
+            <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Gestión de Inventario</h2>
+
+            {/* Current Inventory */}
+            <div className="bg-white p-6 rounded-xl shadow-lg mb-8">
+              <h3 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3">Stock Actual de Productos</h3>
+              {products.length === 0 ? (
+                <p className="text-gray-500 text-sm text-center">No hay productos en inventario.</p>
+              ) : (
+                <ul className="space-y-3">
+                  {products.map(product => (
+                    <li key={product.id} className="flex justify-between items-center bg-gray-50 p-3 rounded-lg shadow-sm">
+                      <span className="text-gray-800 font-medium">{product.name}</span>
+                      <span className="text-gray-700">Stock: <span className="font-semibold">{product.quantity}</span></span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+
+            {/* Adjust Inventory */}
+            <div className="bg-white p-6 rounded-xl shadow-lg mb-8">
+              <h3 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3">Ajustar Inventario</h3>
+              <BarberiaSelect
+                label="Producto"
+                options={productOptions}
+                value={productToAdjust}
+                onChange={(e) => setProductToAdjust(e.target.value)}
+              />
+              <BarberiaInput
+                label="Cantidad a ajustar"
+                type="number"
+                placeholder="Ej: 10"
+                value={adjustmentQuantity}
+                onChange={(e) => setAdjustmentQuantity(e.target.value)}
+                min="1"
+                step="1"
+              />
+              <BarberiaSelect
+                label="Tipo de ajuste"
+                options={[{ value: 'add', label: 'Añadir al stock' }, { value: 'subtract', label: 'Restar del stock' }]}
+                value={adjustmentType}
+                onChange={(e) => setAdjustmentType(e.target.value)}
+              />
+              <BarberiaButton text="Realizar Ajuste" onClick={handleAdjustInventory} fullWidth className="mt-4" />
+            </div>
+
+            {/* Register Product Return */}
+            <div className="bg-white p-6 rounded-xl shadow-lg mb-8">
+                <h3 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3">Registrar Devolución de Producto</h3>
+                <p className="text-gray-600 text-sm mb-4">Nota: Al registrar una devolución, la cantidad se añadirá de nuevo al stock.</p>
+                <BarberiaSelect
+                    label="Producto Devuelto"
+                    options={productOptions}
+                    value={productToAdjust}
+                    onChange={(e) => setProductToAdjust(e.target.value)}
+                />
+                <BarberiaInput
+                    label="Cantidad Devuelta"
+                    type="number"
+                    placeholder="Ej: 1"
+                    value={adjustmentQuantity}
+                    onChange={(e) => setAdjustmentQuantity(e.target.value)}
+                    min="1"
+                    step="1"
+                />
+                <BarberiaInput
+                    label="Razón de la Devolución"
+                    placeholder="Producto dañado, cliente insatisfecho, etc."
+                    value={returnReason}
+                    onChange={(e) => setReturnReason(e.target.value)}
+                />
+                <BarberiaButton text="Registrar Devolución y Ajustar Stock" onClick={handleReturnProduct} fullWidth className="mt-4" />
+            </div>
+          </div>
+        );
+      };
+
+      // /components/BarberPanel.js
+      const BarberPanel = ({ currentBarber, attendanceRecords, setAttendanceRecords, barbers, serviceRecords, setServiceRecords, products, setProducts, productSales, setProductSales, services }) => {
+        const today = new Date();
+        const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        const endOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
+
+        // Calculate start of the week (Monday)
+        const dayOfWeek = today.getDay(); // Sunday - 0, Monday - 1, ..., Saturday - 6
+        const diffToMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1; // If Sunday (0), go back 6 days to last Monday. Otherwise, go back dayOfWeek-1 days.
+        const startOfWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - diffToMonday);
+        startOfWeek.setHours(0,0,0,0);
+
+        // Calculate start of the month
+        const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+        startOfMonth.setHours(0,0,0,0);
+
+
+        const currentDayAttendance = attendanceRecords.filter(rec => {
+            const recDate = new Date(rec.date);
+            return rec.barberId === currentBarber.id && recDate >= startOfToday && recDate < endOfToday;
+        });
+
+        const hasClockedIn = currentDayAttendance.some(rec => rec.type === 'Ingreso');
+        const hasTakenBreak = currentDayAttendance.some(rec => rec.type === 'Refrigerio');
+        const hasClockedOut = currentDayAttendance.some(rec => rec.type === 'Salida');
+
+        const handleAttendance = (type) => {
+          if (!currentBarber) {
+            alert('No se ha seleccionado un barbero.');
+            return;
+          }
+
+          const newRecord = {
+            id: generateId(),
+            barberId: currentBarber.id,
+            barberName: currentBarber.name,
+            type: type,
+            date: new Date().toISOString()
+          };
+          setAttendanceRecords(prev => [...prev, newRecord]);
+          alert(`${type} registrado a las ${new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit'})}`);
+        };
+
+        // Function to calculate commissions for a given period
+        const calculateBarberCommissions = (records, currentPeriodStart) => {
+            let totalCommission = 0;
+            const periodRecords = records.filter(record => {
+                const recordDate = new Date(record.date);
+                return record.barberId === currentBarber.id && recordDate >= currentPeriodStart && recordDate < new Date(); // Up to now
+            });
+
+            periodRecords.forEach(record => {
+                const service = services.find(s => s.id === record.serviceId);
+                if (service) {
+                    const commissionAmount = record.price * (service.commissionPercentage / 100);
+                    totalCommission += commissionAmount;
+                }
+            });
+            return totalCommission;
+        };
+
+        const totalCommissionToday = calculateBarberCommissions(serviceRecords, startOfToday);
+        const totalCommissionThisWeek = calculateBarberCommissions(serviceRecords, startOfWeek);
+        const totalCommissionThisMonth = calculateBarberCommissions(serviceRecords, startOfMonth);
+
+        // Filter direct product sales for the current barber and today's date
+        const currentBarberProductSales = productSales.filter(
+            (sale) => {
+                const saleDate = new Date(sale.date);
+                return sale.barberId === currentBarber.id && saleDate >= startOfToday && saleDate < endOfToday;
+            }
+        );
+        const totalProductSalesToday = currentBarberProductSales.reduce((sum, sale) => sum + sale.totalAmount, 0);
+
+
+        return (
+          <div className="container mx-auto p-4 max-w-4xl">
+            <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Panel de {currentBarber ? currentBarber.name : 'Mi Día'}</h2>
+
+            {/* Attendance Control */}
+            <div className="bg-white p-6 rounded-xl shadow-lg mb-8">
+              <h3 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3">Control de Asistencia</h3>
+              <p className="text-gray-700 mb-4 font-medium">Hoy: {new Date().toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
+              <div className="flex space-x-4 mb-6 justify-center">
+                <BarberiaButton text="Marcar Ingreso" onClick={() => handleAttendance('Ingreso')} disabled={hasClockedIn} />
+                <BarberiaButton text="Marcar Refrigerio" onClick={() => handleAttendance('Refrigerio')} disabled={!hasClockedIn || hasTakenBreak || hasClockedOut} />
+                <BarberiaButton text="Marcar Salida" onClick={() => handleAttendance('Salida')} disabled={hasClockedOut} />
+              </div>
+              <h4 className="text-xl font-medium text-gray-700 mt-6 mb-3">Historial Detallado del Día:</h4>
+              {currentDayAttendance.length === 0 ? (
+                <p className="text-gray-500 text-sm text-center">No hay registros de asistencia para hoy.</p>
+              ) : (
+                <ul className="space-y-1 text-gray-800">
+                  {currentDayAttendance.sort((a,b) => new Date(a.date) - new Date(b.date)).map(record => (
+                    <li key={record.id}>{record.type} a las {new Date(record.date).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', second: '2-digit'})}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
+
+            {/* Register Service (using existing component) */}
+            <BarberiaServiceForm
+                barbers={barbers}
+                services={services}
+                products={products}
+                onRegisterService={setServiceRecords}
+                currentBarberId={currentBarber.id}
+            />
+
+            {/* Register Product Sale (using existing component) */}
+            <BarberiaProductSaleForm
+                products={products}
+                onSellProduct={setProductSales}
+                currentBarberId={currentBarber.id}
+            />
+
+            {/* Today's Summary for Barber */}
+            <div className="bg-white p-6 rounded-xl shadow-lg mb-8">
+                <h3 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3">Resumen de Ganancias de {currentBarber ? currentBarber.name : 'Barbero'}</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <h4 className="text-xl font-medium text-gray-700 mb-3">Comisión por Servicios:</h4>
+                        <p className="text-lg">Hoy: <span className="font-bold text-green-700">${totalCommissionToday.toFixed(2)}</span></p>
+                        <p className="text-lg">Esta Semana: <span className="font-bold text-green-700">${totalCommissionThisWeek.toFixed(2)}</span></p>
+                        <p className="text-lg">Este Mes: <span className="font-bold text-green-700">${totalCommissionThisMonth.toFixed(2)}</span></p>
+
+                        <h4 className="text-xl font-medium text-gray-700 mt-4 mb-3">Ventas de Productos Directas (Hoy):</h4>
+                        <p className="text-lg">Hoy: <span className="font-bold text-green-700">${totalProductSalesToday.toFixed(2)}</span></p>
+
+                        <h4 className="text-xl font-medium text-gray-700 mt-4 mb-3">Detalle de Servicios de Hoy:</h4>
+                        <ul className="space-y-1 mt-2 text-gray-700 text-sm">
+                            {serviceRecords.filter(record => {
+                                const recordDate = new Date(record.date);
+                                return record.barberId === currentBarber.id && recordDate >= startOfToday && recordDate < endOfToday;
+                            }).length === 0 ? (
+                                <p className="text-gray-500">No hay servicios registrados hoy.</p>
+                            ) : (
+                                serviceRecords.filter(record => {
+                                    const recordDate = new Date(record.date);
+                                    return record.barberId === currentBarber.id && recordDate >= startOfToday && recordDate < endOfToday;
+                                }).map(record => {
+                                    const service = services.find(s => s.id === record.serviceId);
+                                    const commission = service ? record.price * (service.commissionPercentage / 100) : 0;
+                                    return (
+                                        <li key={record.id}>
+                                            {new Date(record.date).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit'})} - {service?.name || 'Servicio Desconocido'}: ${commission.toFixed(2)}
+                                        </li>
+                                    );
+                                })
+                            )}
+                        </ul>
+
+                        <h4 className="text-xl font-medium text-gray-700 mt-4 mb-3">Detalle de Ventas de Productos Directas (Hoy):</h4>
+                        <ul className="space-y-1 mt-2 text-gray-700 text-sm">
+                             {currentBarberProductSales.length === 0 ? (
+                                <p className="text-gray-500">No hay ventas de productos directas hoy.</p>
+                            ) : (
+                                currentBarberProductSales.map(sale => (
+                                    <li key={sale.id}>
+                                        {new Date(sale.date).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit'})} - {sale.products.map(p => `${p.name} (x${p.quantity})`).join(', ')}: ${sale.totalAmount.toFixed(2)}
+                                    </li>
+                                ))
+                            )}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+          </div>
+        );
+      };
+
+      // /components/Reports.js
+      const Reports = ({ serviceRecords, productSales, productReturns, attendanceRecords, products, barbers, services }) => {
+        const [startDate, setStartDate] = useState('');
+        const [endDate, setEndDate] = useState('');
+        const [selectedBarberId, setSelectedBarberId] = useState('');
+        const [reportType, setReportType] = useState('sales'); // 'sales', 'returns', 'inventory', 'barberPerformance', 'attendance', 'barberPayments'
+
+        const chartRefs = {
+          barberPerformance: useRef(null),
+          productSales: useRef(null),
+        };
+
+        const filterRecords = (records) => {
+          return records.filter(record => {
+            const recordDate = new Date(record.date);
+            const start = startDate ? new Date(startDate) : null;
+            const end = endDate ? new Date(endDate) : null;
+
+            // Adjust end date to include the whole day
+            if (end) end.setDate(end.getDate() + 1); // Make it the start of the next day
+
+            const isInDateRange = (!start || recordDate >= start) && (!end || recordDate < end);
+            const isForSelectedBarber = !selectedBarberId || record.barberId === selectedBarberId;
+
+            return isInDateRange && isForSelectedBarber;
+          });
+        };
+
+        const generateSalesData = () => {
+          const filteredSales = filterRecords(productSales);
+          const filteredServiceRecords = filterRecords(serviceRecords);
+
+          const totalProductSales = filteredSales.reduce((sum, sale) => sum + sale.totalAmount, 0);
+          const totalServiceSales = filteredServiceRecords.reduce((sum, record) => sum + record.price, 0);
+          const totalOverallSales = totalProductSales + totalServiceSales;
+
+          const salesByService = {};
+          filteredServiceRecords.forEach(record => {
+            const service = services.find(s => s.id === record.serviceId);
+            const serviceName = service ? service.name : 'Servicio Desconocido';
+            salesByService[serviceName] = (salesByService[serviceName] || 0) + record.price;
+          });
+
+          const salesByProduct = {};
+          filteredSales.forEach(sale => {
+            sale.products.forEach(p => {
+              salesByProduct[p.name] = (salesByProduct[p.name] || 0) + p.price;
+            });
+          });
+
+          const salesByBarber = {};
+          filteredServiceRecords.forEach(record => {
+            const barber = barbers.find(b => b.id === record.barberId);
+            const barberName = barber ? barber.name : 'Barbero Desconocido';
+            salesByBarber[barberName] = (salesByBarber[barberName] || 0) + record.price;
+          });
+          filteredSales.forEach(sale => { // Add direct product sales to barber sales
+            const barber = barbers.find(b => b.id === sale.barberId);
+            const barberName = barber ? barber.name : 'Barbero Desconocido';
+            salesByBarber[barberName] = (salesByBarber[barberName] || 0) + sale.totalAmount;
+          });
+
+          const salesByPaymentMethod = {};
+          filteredServiceRecords.forEach(record => {
+            salesByPaymentMethod[record.paymentMethod] = (salesByPaymentMethod[record.paymentMethod] || 0) + record.price;
+          });
+          filteredSales.forEach(sale => {
+            salesByPaymentMethod[sale.paymentMethod] = (salesByPaymentMethod[sale.paymentMethod] || 0) + sale.totalAmount;
+          });
+
+          return {
+            totalProductSales,
+            totalServiceSales,
+            totalOverallSales,
+            salesByService,
+            salesByProduct,
+            salesByBarber,
+            salesByPaymentMethod,
+            filteredServiceRecords,
+            filteredSales,
+          };
+        };
+
+        const generateBarberPerformanceData = () => {
+            const filteredServiceRecords = filterRecords(serviceRecords);
+
+            const barberStats = {}; // { barberId: { totalServices: X, totalCommission: Y } }
+            barbers.forEach(barber => {
+                barberStats[barber.id] = { name: barber.name, servicesCount: 0, totalCommission: 0 };
+            });
+
+            filteredServiceRecords.forEach(record => {
+                const service = services.find(s => s.id === record.serviceId);
+                const commissionRate = service ? (service.commissionPercentage / 100) : 0;
+                const commission = record.price * commissionRate;
+
+                if (barberStats[record.barberId]) {
+                    barberStats[record.barberId].servicesCount++;
+                    barberStats[record.barberId].totalCommission += commission;
+                }
+            });
+
+            // Prepare data for Chart.js
+            const labels = Object.values(barberStats).map(stat => stat.name);
+            const commissionsData = Object.values(barberStats).map(stat => stat.totalCommission);
+            const servicesCountData = Object.values(barberStats).map(stat => stat.servicesCount);
+
+            return { labels, commissionsData, servicesCountData, barberStats: Object.values(barberStats) };
+        };
+
+        const generateAttendanceData = () => {
+            const filteredAttendance = attendanceRecords.filter(record => {
+                const recordDate = new Date(record.date);
+                const start = startDate ? new Date(startDate) : null;
+                const end = endDate ? new Date(endDate) : null;
+                if (end) end.setDate(end.getDate() + 1);
+
+                const isInDateRange = (!start || recordDate >= start) && (!end || recordDate < end);
+                const isForSelectedBarber = !selectedBarberId || record.barberId === selectedBarberId;
+                return isInDateRange && isForSelectedBarber;
+            });
+
+            const attendanceByBarber = {};
+            filteredAttendance.forEach(record => {
+                if (!attendanceByBarber[record.barberId]) {
+                    attendanceByBarber[record.barberId] = {
+                        name: barbers.find(b => b.id === record.barberId)?.name || 'Desconocido',
+                        records: []
+                    };
+                }
+                attendanceByBarber[record.barberId].records.push(record);
+            });
+            return Object.values(attendanceByBarber);
+        };
+
+        const generateBarberPaymentsData = () => {
+            const payments = {};
+            const today = new Date();
+            const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            startOfToday.setHours(0,0,0,0);
+
+            const dayOfWeek = today.getDay(); // Sunday - 0, Monday - 1, ..., Saturday - 6
+            const diffToMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+            const startOfWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - diffToMonday);
+            startOfWeek.setHours(0,0,0,0);
+
+            const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+            startOfMonth.setHours(0,0,0,0);
+
+            barbers.forEach(barber => {
+                payments[barber.id] = {
+                    name: barber.name,
+                    dailyPayment: 0,
+                    weeklyPayment: 0,
+                    monthlyPayment: 0
+                };
+            });
+
+            serviceRecords.forEach(record => {
+                const recordDate = new Date(record.date);
+                const service = services.find(s => s.id === record.serviceId);
+                if (service && payments[record.barberId]) {
+                    const commission = record.price * (service.commissionPercentage / 100);
+
+                    // Filter based on the selected date range for the overall report
+                    const startFilter = startDate ? new Date(startDate) : null;
+                    const endFilter = endDate ? new Date(endDate) : null;
+                    if (endFilter) endFilter.setDate(endFilter.getDate() + 1);
+
+                    const isInDateRangeForReport = (!startFilter || recordDate >= startFilter) && (!endFilter || recordDate < endFilter);
+                    const isForSelectedBarber = !selectedBarberId || record.barberId === selectedBarberId;
+
+                    if (isInDateRangeForReport && isForSelectedBarber) {
+                        // Daily calculation (only if today is within the report range or no range selected)
+                        if (recordDate >= startOfToday && recordDate < new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1)) {
+                            payments[record.barberId].dailyPayment += commission;
+                        }
+                        // Weekly calculation
+                        if (recordDate >= startOfWeek && recordDate <= today) { // <= today to include today's records
+                             payments[record.barberId].weeklyPayment += commission;
+                        }
+                        // Monthly calculation
+                        if (recordDate >= startOfMonth && recordDate <= today) { // <= today to include today's records
+                            payments[record.barberId].monthlyPayment += commission;
+                        }
+                    }
+                }
+            });
+            return Object.values(payments);
+        };
+
+        const renderChart = (chartRef, labels, data, chartType, label, backgroundColor) => {
+          if (chartRef.current) {
+            if (chartRef.current.chart) {
+              chartRef.current.chart.destroy();
+            }
+            const ctx = chartRef.current.getContext('2d');
+            chartRef.current.chart = new Chart(ctx, {
+              type: chartType,
+              data: {
+                labels: labels,
+                datasets: [{
+                  label: label,
+                  data: data,
+                  backgroundColor: backgroundColor,
+                  borderColor: backgroundColor.map(color => color.replace('0.6', '1')),
+                  borderWidth: 1
+                }]
+              },
+              options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                  y: {
+                    beginAtZero: true
+                  }
+                }
+              }
+            });
+          }
+        };
+
+        useEffect(() => {
+          if (reportType === 'barberPerformance') {
+            const { labels, commissionsData } = generateBarberPerformanceData();
+            renderChart(chartRefs.barberPerformance, labels, commissionsData, 'bar', 'Comisión Total (S/)', labels.map(() => 'rgba(75, 192, 192, 0.6)'));
+          } else if (reportType === 'sales') {
+            const { salesByPaymentMethod } = generateSalesData();
+            const labels = Object.keys(salesByPaymentMethod);
+            const data = Object.values(salesByPaymentMethod);
+            const colors = ['rgba(255, 99, 132, 0.6)', 'rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)', 'rgba(75, 192, 192, 0.6)'];
+            renderChart(chartRefs.productSales, labels, data, 'pie', 'Ventas por Método de Pago', colors);
+          }
+        }, [reportType, startDate, endDate, selectedBarberId, serviceRecords, productSales, barbers, services]);
+
+
+        const handlePrint = (sectionId, reportName) => {
+          const element = document.getElementById(sectionId);
+          if (element) {
+            html2pdf().from(element).set({
+              margin: [10, 10, 10, 10], // top, left, bottom, right
+              filename: `${reportName}_${new Date().toLocaleDateString('es-ES')}.pdf`,
+              image: { type: 'jpeg', quality: 0.98 },
+              html2canvas: { scale: 2, logging: true, dpi: 192, letterRendering: true },
+              jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            }).save();
+          } else {
+            console.error(`Element with ID ${sectionId} not found.`);
+            alert('Error al generar el PDF. El contenido del reporte no se encontró.');
+          }
+        };
+
+
+        const barberOptions = [{ value: '', label: 'Todos los barberos' }, ...barbers.map(barber => ({ value: barber.id, label: barber.name }))];
+
+        const {
+          totalProductSales,
+          totalServiceSales,
+          totalOverallSales,
+          salesByService,
+          salesByProduct,
+          salesByBarber,
+          salesByPaymentMethod,
+          filteredServiceRecords,
+          filteredSales,
+        } = generateSalesData();
+
+        const filteredReturns = filterRecords(productReturns);
+        const filteredInventory = products; // Inventory is always current, not filtered by date/barber
+
+        const { labels: barberLabels, commissionsData: barberCommissionsData, servicesCountData: barberServicesCountData, barberStats } = generateBarberPerformanceData();
+        const attendanceReportData = generateAttendanceData();
+        const barberPaymentsData = generateBarberPaymentsData();
+
+
+        return (
+          <div className="container mx-auto p-4 max-w-6xl">
+            <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Reportes</h2>
+
+            <div className="bg-white p-6 rounded-xl shadow-lg mb-8">
+              <h3 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3">Filtros de Reporte</h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <BarberiaInput
+                  label="Fecha de Inicio"
+                  type="date"
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                />
+                <BarberiaInput
+                  label="Fecha de Fin"
+                  type="date"
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                />
+                <BarberiaSelect
+                  label="Barbero"
+                  options={barberOptions}
+                  value={selectedBarberId}
+                  onChange={(e) => setSelectedBarberId(e.target.value)}
+                />
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3"> {/* Adjusted grid for new button */}
+                <BarberiaButton text="Reporte de Ventas" variant={reportType === 'sales' ? 'primary' : 'secondary'} onClick={() => setReportType('sales')} />
+                <BarberiaButton text="Reporte de Devoluciones" variant={reportType === 'returns' ? 'primary' : 'secondary'} onClick={() => setReportType('returns')} />
+                <BarberiaButton text="Reporte de Inventario" variant={reportType === 'inventory' ? 'primary' : 'secondary'} onClick={() => setReportType('inventory')} />
+                <BarberiaButton text="Rendimiento por Barbero" variant={reportType === 'barberPerformance' ? 'primary' : 'secondary'} onClick={() => setReportType('barberPerformance')} />
+                <BarberiaButton text="Reporte de Asistencia" variant={reportType === 'attendance' ? 'primary' : 'secondary'} onClick={() => setReportType('attendance')} />
+                <BarberiaButton text="Pagos a Barberos" variant={reportType === 'barberPayments' ? 'primary' : 'secondary'} onClick={() => setReportType('barberPayments')} />
+              </div>
+            </div>
+
+            {reportType === 'sales' && (
+              <div id="product-sales-report-section" className="bg-white p-6 rounded-xl shadow-lg mb-8">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4 text-center">Reporte de Ventas</h3>
+                <h4 className="text-lg text-gray-700 mb-6 text-center">
+                  Período: {startDate || 'Inicio'} a {endDate || 'Fin'}
+                </h4>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                  <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                    <h5 className="text-xl font-semibold text-gray-800 mb-2">Resumen General</h5>
+                    <p className="text-lg">Total Ventas: <span className="font-bold text-green-600">${totalOverallSales.toFixed(2)}</span></p>
+                    <p className="text-md">Ventas de Servicios: <span className="font-semibold">${totalServiceSales.toFixed(2)}</span></p>
+                    <p className="text-md">Ventas de Productos (incl. en servicio y directas): <span className="font-semibold">${totalProductSales.toFixed(2)}</span></p>
+                    <p className="text-md">Número de Servicios Registrados: <span className="font-semibold">{filteredServiceRecords.length}</span></p>
+                    <p className="text-md">Número de Ventas de Productos Directas: <span className="font-semibold">{filteredSales.length}</span></p>
+                  </div>
+
+                  <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                    <h5 className="text-xl font-semibold text-gray-800 mb-2">Ventas por Método de Pago</h5>
+                    {Object.keys(salesByPaymentMethod).length === 0 ? (
+                        <p className="text-gray-500 text-sm">No hay datos de ventas por método de pago.</p>
+                    ) : (
+                        <div className="chart-container h-48 md:h-64">
+                            <canvas ref={chartRefs.productSales}></canvas>
+                        </div>
+                    )}
+                    <ul className="text-sm mt-4">
+                        {Object.entries(salesByPaymentMethod).map(([method, amount]) => (
+                            <li key={method} className="flex justify-between"><span>{method}:</span> <span className="font-medium">${amount.toFixed(2)}</span></li>
+                        ))}
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                        <h5 className="text-xl font-semibold text-gray-800 mb-2">Ventas por Servicio</h5>
+                        {Object.keys(salesByService).length === 0 ? (
+                            <p className="text-gray-500 text-sm">No hay datos de ventas por servicio.</p>
+                        ) : (
+                            <ul className="space-y-1">
+                                {Object.entries(salesByService).map(([serviceName, amount]) => (
+                                    <li key={serviceName} className="flex justify-between"><span>{serviceName}:</span> <span className="font-medium">${amount.toFixed(2)}</span></li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
+                    <div className="p-4 bg-gray-50 rounded-lg shadow-sm">
+                        <h5 className="text-xl font-semibold text-gray-800 mb-2">Ventas por Barbero</h5>
+                        {Object.keys(salesByBarber).length === 0 ? (
+                            <p className="text-gray-500 text-sm">No hay datos de ventas por barbero.</p>
+                        ) : (
+                            <ul className="space-y-1">
+                                {Object.entries(salesByBarber).map(([barberName, amount]) => (
+                                    <li key={barberName} className="flex justify-between"><span>{barberName}:</span> <span className="font-medium">${amount.toFixed(2)}</span></li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
+                </div>
+
+                <h4 className="text-xl font-semibold text-gray-800 mb-4 border-t pt-4">Historial Detallado de Ventas:</h4>
+                {(filteredServiceRecords.length === 0 && filteredSales.length === 0) ? (
+                  <p className="text-gray-500 text-center">No hay ventas en este período.</p>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="min-w-full bg-white border border-gray-200 rounded-lg">
+                      <thead>
+                        <tr className="bg-gray-100 text-gray-700 text-left">
+                          <th className="py-2 px-4 border-b">Fecha</th>
+                          <th className="py-2 px-4 border-b">Tipo</th>
+                          <th className="py-2 px-4 border-b">Descripción</th>
+                          <th className="py-2 px-4 border-b">Barbero</th>
+                          <th className="py-2 px-4 border-b text-right">Monto</th>
+                          <th className="py-2 px-4 border-b">Método Pago</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {filteredServiceRecords.map(record => {
+                          const service = services.find(s => s.id === record.serviceId);
+                          const barber = barbers.find(b => b.id === record.barberId);
+                          return (
+                            <tr key={record.id} className="hover:bg-gray-50">
+                              <td className="py-2 px-4 border-b text-sm">{new Date(record.date).toLocaleDateString('es-ES')}</td>
+                              <td className="py-2 px-4 border-b text-sm">Servicio</td>
+                              <td className="py-2 px-4 border-b text-sm">
+                                {service?.name || 'Servicio Desconocido'}
+                                {record.productsSold && record.productsSold.length > 0 && (
+                                  <span className="block text-xs text-gray-500">
+                                    + Prod: {record.productsSold.map(p => `${p.name} (x${p.quantity})`).join(', ')}
+                                  </span>
+                                )}
+                              </td>
+                              <td className="py-2 px-4 border-b text-sm">{barber?.name || 'Desconocido'}</td>
+                              <td className="py-2 px-4 border-b text-sm text-right font-medium">${record.totalAmount.toFixed(2)}</td>
+                              <td className="py-2 px-4 border-b text-sm">{record.paymentMethod}</td>
+                            </tr>
+                          );
+                        })}
+                        {filteredSales.map(sale => {
+                          const barber = barbers.find(b => b.id === sale.barberId);
+                          return (
+                            <tr key={sale.id} className="hover:bg-gray-50">
+                              <td className="py-2 px-4 border-b text-sm">{new Date(sale.date).toLocaleDateString('es-ES')}</td>
+                              <td className="py-2 px-4 border-b text-sm">Venta Producto</td>
+                              <td className="py-2 px-4 border-b text-sm">
+                                {sale.products.map(p => `${p.name} (x${p.quantity})`).join(', ')}
+                              </td>
+                              <td className="py-2 px-4 border-b text-sm">{barber?.name || 'Desconocido'}</td>
+                              <td className="py-2 px-4 border-b text-sm text-right font-medium">${sale.totalAmount.toFixed(2)}</td>
+                              <td className="py-2 px-4 border-b text-sm">{sale.paymentMethod}</td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+                <BarberiaButton text="Generar Reporte PDF" onClick={() => handlePrint('product-sales-report-section', 'Reporte_Ventas')} fullWidth className="mt-6" />
+              </div>
+            )}
+
+            {reportType === 'returns' && (
+              <div id="product-returns-report-section" className="bg-white p-6 rounded-xl shadow-lg mb-8">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4 text-center">Reporte de Devoluciones de Productos</h3>
+                <h4 className="text-lg text-gray-700 mb-6 text-center">
+                  Período: {startDate || 'Inicio'} a {endDate || 'Fin'}
+                </h4>
+                {filteredReturns.length === 0 ? (
+                  <p className="text-gray-500 text-center">No hay devoluciones en este período.</p>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="min-w-full bg-white border border-gray-200 rounded-lg">
+                      <thead>
+                        <tr className="bg-gray-100 text-gray-700 text-left">
+                          <th className="py-2 px-4 border-b">Fecha</th>
+                          <th className="py-2 px-4 border-b">Producto</th>
+                          <th className="py-2 px-4 border-b text-right">Cantidad</th>
+                          <th className="py-2 px-4 border-b">Razón</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {filteredReturns.map(item => (
+                          <tr key={item.id} className="hover:bg-gray-50">
+                            <td className="py-2 px-4 border-b text-sm">{new Date(item.date).toLocaleDateString('es-ES')}</td>
+                            <td className="py-2 px-4 border-b text-sm">{item.productName}</td>
+                            <td className="py-2 px-4 border-b text-sm text-right">{item.quantity}</td>
+                            <td className="py-2 px-4 border-b text-sm">{item.reason}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+                <BarberiaButton text="Generar Reporte PDF" onClick={() => handlePrint('product-returns-report-section', 'Reporte_Devoluciones')} fullWidth className="mt-6" />
+              </div>
+            )}
+
+            {reportType === 'inventory' && (
+              <div id="inventory-report-section" className="bg-white p-6 rounded-xl shadow-lg mb-8">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4 text-center">Reporte de Inventario Actual</h3>
+                {filteredInventory.length === 0 ? (
+                  <p className="text-gray-500 text-center">No hay productos en el inventario.</p>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="min-w-full bg-white border border-gray-200 rounded-lg">
+                      <thead>
+                        <tr className="bg-gray-100 text-gray-700 text-left">
+                          <th className="py-2 px-4 border-b">Producto</th>
+                          <th className="py-2 px-4 border-b text-right">Stock Actual</th>
+                          <th className="py-2 px-4 border-b text-right">Precio por defecto</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {filteredInventory.map(product => (
+                          <tr key={product.id} className="hover:bg-gray-50">
+                            <td className="py-2 px-4 border-b text-sm">{product.name}</td>
+                            <td className="py-2 px-4 border-b text-sm text-right">{product.quantity}</td>
+                            <td className="py-2 px-4 border-b text-sm text-right">${product.defaultPrice.toFixed(2)}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+                <BarberiaButton text="Generar Reporte PDF" onClick={() => handlePrint('inventory-report-section', 'Reporte_Inventario')} fullWidth className="mt-6" />
+              </div>
+            )}
+
+            {reportType === 'barberPerformance' && (
+                <div id="barber-report-section" className="bg-white p-6 rounded-xl shadow-lg mb-8">
+                    <h3 className="text-2xl font-bold text-gray-900 mb-4 text-center">Rendimiento por Barbero</h3>
+                    <h4 className="text-lg text-gray-700 mb-6 text-center">
+                        Período: {startDate || 'Inicio'} a {endDate || 'Fin'}
+                    </h4>
+
+                    {barberStats.length === 0 ? (
+                        <p className="text-gray-500 text-center">No hay datos de rendimiento de barberos en este período.</p>
+                    ) : (
+                        <>
+                            <div className="chart-container h-64 mb-8">
+                                <canvas ref={chartRefs.barberPerformance}></canvas>
+                            </div>
+                            <div className="overflow-x-auto">
+                                <table className="min-w-full bg-white border border-gray-200 rounded-lg">
+                                    <thead>
+                                        <tr className="bg-gray-100 text-gray-700 text-left">
+                                            <th className="py-2 px-4 border-b">Barbero</th>
+                                            <th className="py-2 px-4 border-b text-right">Servicios Realizados</th>
+                                            <th className="py-2 px-4 border-b text-right">Comisión Total Ganada</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {barberStats.map(stat => (
+                                            <tr key={stat.name} className="hover:bg-gray-50">
+                                                <td className="py-2 px-4 border-b text-sm">{stat.name}</td>
+                                                <td className="py-2 px-4 border-b text-sm text-right">{stat.servicesCount}</td>
+                                                <td className="py-2 px-4 border-b text-sm text-right font-medium text-green-700">${stat.totalCommission.toFixed(2)}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </>
+                    )}
+                    <BarberiaButton text="Generar Reporte PDF" onClick={() => handlePrint('barber-report-section', 'Reporte_Rendimiento_Barberos')} fullWidth className="mt-6" />
+                </div>
+            )}
+
+            {reportType === 'attendance' && (
+                <div id="attendance-report-section" className="bg-white p-6 rounded-xl shadow-lg mb-8">
+                    <h3 className="text-2xl font-bold text-gray-900 mb-4 text-center">Reporte de Asistencia</h3>
+                    <h4 className="text-lg text-gray-700 mb-6 text-center">
+                        Período: {startDate || 'Inicio'} a {endDate || 'Fin'}
+                    </h4>
+
+                    {attendanceReportData.length === 0 ? (
+                        <p className="text-gray-500 text-center">No hay registros de asistencia en este período.</p>
+                    ) : (
+                        attendanceReportData.map(barberAttendance => (
+                            <div key={barberAttendance.name} className="mb-6 border-b pb-4 last:border-b-0">
+                                <h5 className="text-xl font-semibold text-gray-800 mb-3">{barberAttendance.name}</h5>
+                                <div className="overflow-x-auto">
+                                    <table className="min-w-full bg-white border border-gray-200 rounded-lg">
+                                        <thead>
+                                            <tr className="bg-gray-100 text-gray-700 text-left">
+                                                <th className="py-2 px-4 border-b">Fecha</th>
+                                                <th className="py-2 px-4 border-b">Tipo de Registro</th>
+                                                <th className="py-2 px-4 border-b">Hora</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {barberAttendance.records.sort((a,b) => new Date(a.date) - new Date(b.date)).map(record => (
+                                                <tr key={record.id} className="hover:bg-gray-50">
+                                                    <td className="py-2 px-4 border-b text-sm">{new Date(record.date).toLocaleDateString('es-ES')}</td>
+                                                    <td className="py-2 px-4 border-b text-sm">{record.type}</td>
+                                                    <td className="py-2 px-4 border-b text-sm">{new Date(record.date).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', second: '2-digit'})}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        ))
+                    )}
+                    <BarberiaButton text="Generar Reporte PDF" onClick={() => handlePrint('attendance-report-section', 'Reporte_Asistencia')} fullWidth className="mt-6" />
+                </div>
+            )}
+
+            {reportType === 'barberPayments' && (
+                <div id="barber-payments-report-section" className="bg-white p-6 rounded-xl shadow-lg mb-8">
+                    <h3 className="text-2xl font-bold text-gray-900 mb-4 text-center">Reporte de Pagos a Barberos</h3>
+                    <h4 className="text-lg text-gray-700 mb-6 text-center">
+                        Período de filtro de servicios: {startDate || 'Inicio'} a {endDate || 'Fin'}
+                    </h4>
+
+                    {barberPaymentsData.length === 0 ? (
+                        <p className="text-gray-500 text-center">No hay datos de pagos para barberos en el período seleccionado.</p>
+                    ) : (
+                        <div className="overflow-x-auto">
+                            <table className="min-w-full bg-white border border-gray-200 rounded-lg">
+                                <thead>
+                                    <tr className="bg-gray-100 text-gray-700 text-left">
+                                        <th className="py-2 px-4 border-b">Barbero</th>
+                                        <th className="py-2 px-4 border-b text-right">Comisión Hoy</th>
+                                        <th className="py-2 px-4 border-b text-right">Comisión Esta Semana</th>
+                                        <th className="py-2 px-4 border-b text-right">Comisión Este Mes</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {barberPaymentsData.map(payment => (
+                                        <tr key={payment.name} className="hover:bg-gray-50">
+                                            <td className="py-2 px-4 border-b text-sm">{payment.name}</td>
+                                            <td className="py-2 px-4 border-b text-sm text-right font-medium text-green-700">${payment.dailyPayment.toFixed(2)}</td>
+                                            <td className="py-2 px-4 border-b text-sm text-right font-medium text-green-700">${payment.weeklyPayment.toFixed(2)}</td>
+                                            <td className="py-2 px-4 border-b text-sm text-right font-medium text-green-700">${payment.monthlyPayment.toFixed(2)}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
+                    <BarberiaButton text="Generar Reporte PDF" onClick={() => handlePrint('barber-payments-report-section', 'Reporte_Pagos_Barberos')} fullWidth className="mt-6" />
+                </div>
+            )}
+
+
+          </div>
+        );
+      };
+
+      // /components/LoginScreen.js
+      const LoginScreen = ({ onLogin, barbers }) => {
+        const [userTypeSelected, setUserTypeSelected] = useState(null); // 'owner' or 'barber'
+        const [selectedBarberId, setSelectedBarberId] = useState('');
+        const [password, setPassword] = useState('');
+        const [errorMessage, setErrorMessage] = useState('');
+
+        const OWNER_PASSWORD = 'admin'; // Hardcoded password for owner for demo purposes
+
+        const barberOptions = [{ value: '', label: 'Selecciona tu nombre' }, ...barbers.map(barber => ({ value: barber.id, label: barber.name }))];
+
+        const handleLogin = () => {
+          setErrorMessage('');
+          if (userTypeSelected === 'owner') {
+            if (password === OWNER_PASSWORD) {
+              onLogin('owner', null);
+            } else {
+              setErrorMessage('Contraseña de Dueño incorrecta.');
+            }
+          } else if (userTypeSelected === 'barber') {
+            const selectedBarber = barbers.find(b => b.id === selectedBarberId);
+            if (selectedBarber && selectedBarber.password === password) {
+              onLogin('barber', selectedBarber.id);
+            } else {
+              setErrorMessage('Nombre de Barbero o clave incorrecta.');
+            }
+          }
+        };
+
+        return (
+          <div className="min-h-screen flex items-center justify-center bg-gray-100">
+            <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-sm text-center">
+              <h1 className="text-3xl font-bold text-gray-900 mb-6">Bienvenido a Barbería Bigote</h1>
+
+              {!userTypeSelected && (
+                <div className="space-y-4">
+                  <BarberiaButton text="Iniciar Sesión Como: Dueño" onClick={() => setUserTypeSelected('owner')} fullWidth />
+                  <BarberiaButton text="Login de Barbero" variant="secondary" onClick={() => setUserTypeSelected('barber')} fullWidth />
+                </div>
+              )}
+
+              {userTypeSelected && (
+                <>
+                  <h2 className="text-xl font-semibold text-gray-800 mb-4">
+                    {userTypeSelected === 'owner' ? 'Acceso para Dueño' : 'Acceso para Barbero'}
+                  </h2>
+
+                  {userTypeSelected === 'barber' && (
+                    <BarberiaSelect
+                      label="Soy Barbero"
+                      options={barberOptions}
+                      value={selectedBarberId}
+                      onChange={(e) => setSelectedBarberId(e.target.value)}
+                    />
+                  )}
+
+                  <BarberiaInput
+                    label="Clave"
+                    type="password"
+                    placeholder="Ingresa tu clave"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+
+                  {errorMessage && <p className="text-red-600 text-sm mb-4">{errorMessage}</p>}
+
+                  <BarberiaButton text="Acceder" onClick={handleLogin} fullWidth className="mt-4" />
+                  <BarberiaButton text="Volver" variant="secondary" onClick={() => { setUserTypeSelected(null); setPassword(''); setErrorMessage(''); }} fullWidth className="mt-2" />
+                </>
+              )}
+            </div>
+          </div>
+        );
+      };
+
+
+      // The main App component
+      const App = () => {
+        const [activeTab, setActiveTab] = useState('service');
+        const [isLoggedIn, setIsLoggedIn] = useState(false);
+        const [userType, setUserType] = useState(null); // 'owner' or 'barber'
+        const [currentUserId, setCurrentUserId] = useState(null); // ID of the logged-in barber or null for owner
+
+        // State for data, persisted using localStorage
+        const [services, setServices] = useLocalStorage('services', []);
+        const [products, setProducts] = useLocalStorage('products', []);
+        const [barbers, setBarbers] = useLocalStorage('barbers', []);
+        const [serviceRecords, setServiceRecords] = useLocalStorage('serviceRecords', []);
+        const [productSales, setProductSales] = useLocalStorage('productSales', []);
+        const [productReturns, setProductReturns] = useLocalStorage('productReturns', []);
+        const [attendanceRecords, setAttendanceRecords] = useLocalStorage('attendanceRecords', []);
+
+        const handleLogin = (type, userId) => {
+          setIsLoggedIn(true);
+          setUserType(type);
+          setCurrentUserId(userId);
+          setActiveTab('service'); // Default tab after login
+        };
+
+        const handleLogout = () => {
+          setIsLoggedIn(false);
+          setUserType(null);
+          setCurrentUserId(null);
+          setActiveTab(''); // Reset tab
+        };
+
+        // Function to handle service registration and update product stock
+        const registerServiceAndProducts = (newServiceRecord) => {
+            setServiceRecords(prev => [...prev, newServiceRecord]);
+
+            // Deduct product quantities if products were sold with the service
+            if (newServiceRecord.productsSold && newServiceRecord.productsSold.length > 0) {
+                setProducts(prevProducts => {
+                    return prevProducts.map(product => {
+                        const soldProduct = newServiceRecord.productsSold.find(item => item.productId === product.id);
+                        if (soldProduct) {
+                            return { ...product, quantity: product.quantity - soldProduct.quantity };
+                        }
+                        return product;
+                    });
+                });
+            }
+        };
+
+        // Function to handle direct product sales and update stock
+        const sellProductAndUpdateStock = (newProductSale) => {
+            setProductSales(prev => [...prev, newProductSale]);
+
+            // Deduct product quantities for direct sales
+            if (newProductSale.products && newProductSale.products.length > 0) {
+                setProducts(prevProducts => {
+                    return prevProducts.map(product => {
+                        const soldProduct = newProductSale.products.find(item => item.productId === product.id);
+                        if (soldProduct) {
+                            return { ...product, quantity: product.quantity - soldProduct.quantity };
+                        }
+                        return product;
+                    });
+                });
+            }
+        };
+
+        const currentBarber = currentUserId ? barbers.find(b => b.id === currentUserId) : null;
+
+        const renderContent = () => {
+          if (!isLoggedIn) {
+            return <LoginScreen onLogin={handleLogin} barbers={barbers} />;
+          }
+
+          return (
+            <>
+              <BarberiaHeader
+                activeTab={activeTab}
+                onSelectTab={setActiveTab}
+                onLogout={handleLogout}
+                userType={userType}
+              />
+              <main className="p-6">
+                {activeTab === 'service' && (
+                  <BarberiaServiceForm
+                    barbers={barbers}
+                    services={services}
+                    products={products}
+                    onRegisterService={registerServiceAndProducts}
+                    currentBarberId={currentUserId}
+                  />
+                )}
+                {activeTab === 'product' && (
+                  <BarberiaProductSaleForm
+                    products={products}
+                    onSellProduct={sellProductAndUpdateStock}
+                    currentBarberId={currentUserId}
+                  />
+                )}
+                {userType === 'barber' && activeTab === 'barber-panel' && (
+                  <BarberPanel
+                    currentBarber={currentBarber}
+                    attendanceRecords={attendanceRecords}
+                    setAttendanceRecords={setAttendanceRecords}
+                    barbers={barbers} // Pass barbers for general info in panel
+                    serviceRecords={serviceRecords}
+                    setServiceRecords={registerServiceAndProducts} // Pass updater for consistency
+                    products={products}
+                    setProducts={setProducts} // Pass updater for stock adjustment if needed in the future
+                    productSales={productSales}
+                    setProductSales={sellProductAndUpdateStock}
+                    services={services}
+                  />
+                )}
+                {userType === 'owner' && activeTab === 'admin' && (
+                  <AdminPanel
+                    services={services}
+                    setServices={setServices}
+                    products={products}
+                    setProducts={setProducts}
+                    barbers={barbers}
+                    setBarbers={setBarbers}
+                  />
+                )}
+                {userType === 'owner' && activeTab === 'inventory-management' && (
+                    <InventoryManagement
+                        products={products}
+                        setProducts={setProducts}
+                        productReturns={productReturns}
+                        setReturnedProducts={setProductReturns}
+                    />
+                )}
+                {userType === 'owner' && activeTab === 'reports' && (
+                  <Reports
+                    serviceRecords={serviceRecords}
+                    productSales={productSales}
+                    productReturns={productReturns}
+                    attendanceRecords={attendanceRecords}
+                    products={products}
+                    barbers={barbers}
+                    services={services}
+                  />
+                )}
+              </main>
+            </>
+          );
+        };
+
+        return (
+          <StrictMode>
+            {renderContent()}
+          </StrictMode>
+        );
+      };
+
+      const container = document.getElementById('root');
+      const root = createRoot(container);
+      root.render(<App />);
+    </script>
+  </body>
+</html>
+<!-- partial -->
+  <script  src="./script.js"></script>
+
+</body>
+</html>
